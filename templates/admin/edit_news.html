@@ -1,0 +1,32 @@
+{% extends "admin/base.html" %}
+{% block content %}
+<div class="container mt-4">
+    <h2>Edit News</h2>
+    <form method="POST" enctype="multipart/form-data">
+        <div class="form-group">
+            <label>Title</label>
+            <input type="text" name="title" class="form-control" value="{{ news.title }}" required>
+        </div>
+        <div class="form-group">
+            <label>Content</label>
+            <textarea name="content" class="form-control rich-text" required>{{ news.content|safe }}</textarea>
+        </div>
+        <div class="form-group">
+            <label>Category</label>
+            <input type="text" name="category" class="form-control" value="{{ news.category }}" required>
+        </div>
+        <div class="form-group">
+            <label>Event Date</label>
+            <input type="date" name="event_date" class="form-control" value="{{ news.event_date.strftime('%Y-%m-%d') }}" required>
+        </div>
+        <div class="form-group">
+            <label>Current Image</label>
+            <img src="{{ url_for('static', filename='assets/img/' + news.image_path) }}" alt="Current image" style="max-width: 200px; display: block; margin-bottom: 10px;">
+            <label>Change Image (optional)</label>
+            <input type="file" name="image" class="form-control-file">
+        </div>
+        <button type="submit" class="btn btn-primary">Update News</button>
+        <a href="{{ url_for('admin_news') }}" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>
+{% endblock %} 

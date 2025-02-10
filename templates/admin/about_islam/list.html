@@ -1,0 +1,44 @@
+{% extends "admin/base.html" %}
+{% block content %}
+<div class="container mt-4">
+    <h2>About Islam Pages</h2>
+    <a href="{{ url_for('admin_about_islam_create') }}" class="btn btn-primary mb-3">Create New Page</a>
+    
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Slug</th>
+                <th>Content Preview</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for page in pages %}
+            <tr>
+                <td>{{ page.title }}</td>
+                <td>{{ page.slug }}</td>
+                <td>
+                    <div class="content-preview">
+                        {{ page.content|safe|truncate(100) if page.content else 'No content' }}
+                    </div>
+                </td>
+                <td>
+                    <a href="{{ url_for('admin_about_islam_edit', id=page.id) }}" class="btn btn-sm btn-primary">Edit</a>
+                    <a href="{{ url_for('admin_about_islam_delete', id=page.id) }}" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure?')">Delete</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<style>
+    .content-preview {
+        max-width: 300px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+</style>
+{% endblock %} 

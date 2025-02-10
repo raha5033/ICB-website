@@ -1,0 +1,36 @@
+{% extends "admin/base.html" %}
+{% block content %}
+<div class="container mt-4">
+    <h2>Edit Event</h2>
+    <form method="POST" enctype="multipart/form-data">
+        <div class="form-group">
+            <label>Title</label>
+            <input type="text" name="title" class="form-control" value="{{ event.title }}" required>
+        </div>
+        <div class="form-group">
+            <label>Content</label>
+            <textarea name="content" class="form-control rich-text" required>{{ event.content|safe }}</textarea>
+        </div>
+        <div class="form-group">
+            <label>Date & Time</label>
+            <input type="datetime-local" name="date" class="form-control" 
+                   value="{{ event.date.strftime('%Y-%m-%dT%H:%M') }}" required>
+        </div>
+        <div class="form-group">
+            <label>Location</label>
+            <input type="text" name="location" class="form-control" value="{{ event.location }}" required>
+        </div>
+        <div class="form-group">
+            <label>Current Image</label><br>
+            <img src="{{ url_for('static', filename='assets/img/' + event.image_path) }}" 
+                 alt="{{ event.title }}" style="width: 100px; height: 100px; object-fit: cover;">
+        </div>
+        <div class="form-group">
+            <label>New Image (leave empty to keep current)</label>
+            <input type="file" name="image" class="form-control" accept="image/*">
+        </div>
+        <button type="submit" class="btn btn-primary">Update</button>
+        <a href="{{ url_for('admin_events') }}" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>
+{% endblock %} 

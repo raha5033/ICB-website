@@ -1,0 +1,65 @@
+{% include 'partials/header.html' %}
+{% include 'partials/navigation.html' %}
+
+<section class="bannr-section" style="background-image: url({{ url_for('static', filename='assets/img/Khutbah.jpg') }});">
+    <div class="container">
+        <div class="bannr-text">
+            <img src="{{ url_for('static', filename='assets/img/heading-img.png') }}" alt="icon">
+            <h2>{{ page.title }}</h2>
+        </div>
+    </div>
+</section>
+
+<section class="gap">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8">
+                <div class="content">
+                    {# Use safe filter to render HTML properly #}
+                    {{ page.content|safe }}
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <!-- Sidebar content if needed -->
+            </div>
+        </div>
+    </div>
+</section>
+
+{% include 'partials/footer.html' %}
+
+<style>
+    /* Style for Quill content */
+    .content .ql-editor {
+        padding: 0;
+    }
+    
+    .content p {
+        margin-bottom: 1rem;
+    }
+
+    .content ul, .content ol {
+        padding-left: 1.5rem;
+        margin-bottom: 1rem;
+    }
+
+    .content pre {
+        background-color: #f8f9fa;
+        padding: 1rem;
+        border-radius: 4px;
+        margin-bottom: 1rem;
+    }
+
+    .content blockquote {
+        border-left: 4px solid #ccc;
+        padding-left: 1rem;
+        margin-left: 0;
+        margin-bottom: 1rem;
+    }
+
+    .content img {
+        max-width: 100%;
+        height: auto;
+        margin: 1rem 0;
+    }
+</style> 

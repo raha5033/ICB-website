@@ -1,0 +1,29 @@
+{% extends "admin/base.html" %}
+{% block content %}
+<div class="container mt-4">
+    <h2>{{ 'Edit' if news else 'Create' }} News</h2>
+    <form method="POST" enctype="multipart/form-data">
+        <div class="form-group">
+            <label>Title</label>
+            <input type="text" name="title" class="form-control" value="{{ news.title if news else '' }}" required>
+        </div>
+        <div class="form-group">
+            <label>Content</label>
+            <textarea name="content" class="form-control rich-text" required>{{ news.content if news else '' }}</textarea>
+        </div>
+        <div class="form-group">
+            <label>Category</label>
+            <input type="text" name="category" class="form-control" value="{{ news.category if news else '' }}" required>
+        </div>
+        <div class="form-group">
+            <label>Event Date</label>
+            <input type="date" name="event_date" class="form-control" value="{{ news.event_date.strftime('%Y-%m-%d') if news else '' }}" required>
+        </div>
+        <div class="form-group">
+            <label>Image</label>
+            <input type="file" name="image" class="form-control-file" {{ '' if news else 'required' }}>
+        </div>
+        <button type="submit" class="btn btn-primary">{{ 'Update' if news else 'Create' }}</button>
+    </form>
+</div>
+{% endblock %} 

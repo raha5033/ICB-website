@@ -1,0 +1,158 @@
+{% include 'partials/header.html' %}
+{% include 'partials/navigation.html' %}
+<link href="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.min.js"></script>
+<section class="bannr-section" style="background-image: url({{ url_for('static', filename='assets/img/Khutbah.jpg') }});">
+    <div class="container">
+        <div class="bannr-text">
+            <img src="{{ url_for('static', filename='assets/img/heading-img.png') }}" alt="icon">
+            <h2>Potluck Signup</h2>
+        </div>
+    </div>
+</section>
+
+    <section class="gap our-courses">
+        <div class="container">
+            <div class="heading">
+                
+                <p>Join us for a great community gathering!</p>
+                <h2>Potluck Signup List</h2>
+            </div>
+
+            <!-- Signup Table -->
+            <div class="card shadow-sm mt-3">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0">People Bringing Items</h5>
+                </div>
+                <div class="card-body">
+                    <table class="table table-bordered">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th>Name</th>
+                                <th>Item</th>
+                                <th>Details</th>
+                            </tr>
+                        </thead>
+                        <tbody id="potluckTableBody">
+                            {% for signup in signups %}
+                            <tr>
+                                <td>{{ signup.user_name }}</td>
+                                <td>{{ signup.item }}</td>
+                                <td>{{ signup.details }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Signup Button -->
+            <div class="text-center mt-4">
+                <button class="btn btn-success btn-lg" onclick="showSignupModal()">Sign Up</button>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Signup Form Modal -->
+    <div id="signupModal" class="modal fade" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header bg-success text-white">
+                    <h5 class="modal-title">Sign Up for Potluck</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="signupForm">
+                        <div class="form-group">
+                            <label for="user_name">Your Name</label>
+                            <input type="text" id="user_name" name="user_name" class="form-control" placeholder="Enter your full name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Your Email</label>
+                            <input type="email" id="email" name="email" class="form-control" placeholder="Enter your email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="item">What Are You Bringing?</label>
+                            <input type="text" id="item" name="item" class="form-control" placeholder="E.g., Snacks, Soup, Drinks" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="details">Additional Details (Optional)</label>
+                            <textarea id="details" name="details" class="form-control" rows="3" placeholder="Additional details (if any)"></textarea>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-success">Sign Up</button>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Flash Messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <div class="container mt-3">
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                        {{ message }}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
+
+    
+
+    <!-- Bootstrap & Template Scripts -->
+    <script src="assets/js/bootstrap.min.js"></script>
+    <script src="assets/js/custom.js"></script>
+
+    <!-- JavaScript: Show Modal & Handle Signup -->
+    <script>
+        function showSignupModal() {
+            $("#signupModal").modal("show");
+        }
+        document.querySelectorAll('[data-dismiss="modal"]').forEach(button => {
+    button.addEventListener("click", function () {
+        $("#signupModal").modal("hide");
+    });
+});
+
+        document.getElementById("signupForm").addEventListener("submit", function(event) {
+            event.preventDefault();
+            
+            var formData = {
+                user_name: document.getElementById("user_name").value,
+                email: document.getElementById("email").value,
+                item: document.getElementById("item").value,
+                details: document.getElementById("details").value
+            };
+    
+            fetch("/api/potluck/signup", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(formData)
+            }).then(response => response.json())
+            .then(data => {
+                if (data.error) {
+                    alert(data.error);  // Show error message
+                } else {
+                    alert(data.message);  // Show success message
+                    location.reload();  // Refresh the table
+                }
+            }).catch(error => {
+                console.error("Error:", error);
+                alert("Something went wrong. Please try again.");
+            });
+        });
+    </script>
+    
+    
+{% include 'partials/footer.html' %}

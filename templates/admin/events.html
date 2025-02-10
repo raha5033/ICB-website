@@ -1,0 +1,38 @@
+{% extends "admin/base.html" %}
+{% block content %}
+<div class="container mt-4">
+    <h2>Manage Events</h2>
+    <a href="{{ url_for('create_event') }}" class="btn btn-primary mb-3">Add Event</a>
+    
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Image</th>
+                <th>Date & Time</th>
+                <th>Location</th>
+                <th>Content</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for event in events %}
+            <tr>
+                <td>{{ event.title }}</td>
+                <td>
+                    <img src="{{ url_for('static', filename='assets/img/' + event.image_path) }}" 
+                         alt="{{ event.title }}" style="width: 50px; height: 50px; object-fit: cover;">
+                </td>
+                <td>{{ event.date.strftime('%B %d, %Y %I:%M %p') }}</td>
+                <td>{{ event.location }}</td>
+                <td>{{ event.content[:50] }}...</td>
+                <td>
+                    <a href="{{ url_for('edit_event', id=event.id) }}" class="btn btn-sm btn-warning">Edit</a>
+                    <a href="{{ url_for('delete_event', id=event.id) }}" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure?')">Delete</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %} 
