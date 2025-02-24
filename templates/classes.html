@@ -1,0 +1,57 @@
+{% include 'partials/header.html' %}
+{% include 'partials/navigation.html' %}
+
+<section class="bannr-section" style="background-image: url({{ url_for('static', filename='assets/img/Khutbah.jpg') }});">
+    <div class="container">
+        <div class="bannr-text">
+            <img src="{{ url_for('static', filename='assets/img/heading-img.png') }}" alt="icon">
+            <h2>Our Classes/Courses</h2>
+        </div>
+    </div>
+</section>
+
+<section class="gap">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8">
+                {% for class_entry in classes %}
+                <div class="card mt-4">
+            <div class="card-body">
+                <div class="blog-two our-blog hoverimg ">
+                    <figure>
+                        <img src="{{ url_for('static', filename='assets/img/' + class_entry.image) }}" 
+                        alt="{{ class_entry.title }}" 
+                        width="851" height="471">
+                                       </figure>
+                    <div class="d-flex align-items-center">
+                        <span><strong>Instructor:</strong> {{ class_entry.instructor_name }}</span>
+                        <h6>> {{ class_entry.course_date }}</h6>
+                    </div>
+                    <h5><a href="{{ url_for('class_detail', id=class_entry.id) }}">{{ class_entry.course_title }}</a></h5>
+                    <div class="blog-man d-flex align-items-center ">
+                        <div>
+                            <p>{{ class_entry.content | striptags | truncate(250, True) }}</p>
+                            <p><strong>Age Group:</strong> {{ class_entry.age_group }}</p>
+                            <p><strong>Target Group:</strong> {{ class_entry.target_group }}</p>
+                            <p><strong>Frequency:</strong> {{ class_entry.frequency }}</p>
+                            <div class="location">
+                                <i><strong>Venue: </strong></i>
+                                <span style="color: black;">{{ class_entry.location }}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <a href="{{ url_for('class_detail', id=class_entry.id) }}">
+                        <i class="fa-solid fa-arrow-right"></i><span>Read More</span>
+                    </a>
+                </div>
+            </div>
+            </div>
+                {% endfor %}
+        </div>
+
+             {% include 'partials/sidebar.html' %}  <!-- Include Sidebar Here -->
+        </div>
+    </div>
+</section>
+
+{% include 'partials/footer.html' %}

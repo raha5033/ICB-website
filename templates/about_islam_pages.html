@@ -1,0 +1,49 @@
+{% include 'partials/header.html' %}
+{% include 'partials/navigation.html' %}
+
+<section class="bannr-section" style="background-image: url({{ url_for('static', filename='assets/img/Khutbah.jpg') }});">
+    <div class="container">
+        <div class="bannr-text">
+            <img src="{{ url_for('static', filename='assets/img/heading-img.png') }}" alt="icon">
+            <h2>Learn about your Faith</h2>
+        </div>
+    </div>
+</section>
+
+<section class="gap">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8">
+                {% for islam_page in pages %}
+                <div class="card mt-4">
+            <div class="card-body">
+                <div class="blog-two our-blog hoverimg ">
+                    <figure>
+                        <img src="{{ url_for('static', filename='assets/img/' + islam_page.image) }}" 
+                        alt="{{ islam_page.title }}" 
+                        width="851" height="471">
+                                       </figure>
+                    
+                    <h5><a href="{{ url_for('about_islam_page', slug=islam_page.slug) }}">{{ islam_page.title }}</a></h5>
+                    <div class="blog-man d-flex align-items-center ">
+                        <div>
+                            <p>{{ islam_page.content | striptags | truncate(250, True) }}</p>
+                            
+                            
+                        </div>
+                    </div>
+                    <a href="{{ url_for('about_islam_page', slug=islam_page.slug) }}">
+                        <i class="fa-solid fa-arrow-right"></i><span>Read More</span>
+                    </a>
+                </div>
+            </div>
+            </div>
+                {% endfor %}
+        </div>
+
+             {% include 'partials/sidebar.html' %}  <!-- Include Sidebar Here -->
+        </div>
+    </div>
+</section>
+
+{% include 'partials/footer.html' %}

@@ -1,0 +1,38 @@
+{% extends "admin/base.html" %}
+{% block content %}
+<h2>Classes</h2>
+<a href="{{ url_for('create_class') }}" class="btn btn-primary">Add New Class</a>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Course Title</th>
+            <th>Instructor</th>
+            <th>Target Group</th>
+            <th>Age Group</th>
+            <th>Fee</th>
+            <th>Date</th>
+            <th>Frequency</th>
+            <th>Location</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for class_entry in classes %}
+        <tr>
+            <td>{{ class_entry.course_title }}</td>
+            <td>{{ class_entry.instructor_name }}</td>
+            <td>{{ class_entry.target_group }}</td>
+            <td>{{ class_entry.age_group }}</td>
+            <td>{{ class_entry.course_fee }}</td>
+            <td>{{ class_entry.course_date.strftime('%B %d, %Y') }}</td>
+            <td>{{ class_entry.frequency }}</td>
+            <td>{{ class_entry.location }}</td>
+            <td>
+                <a href="{{ url_for('edit_class', id=class_entry.id) }}" class="btn btn-warning btn-sm">Edit</a>
+                <a href="{{ url_for('delete_class', id=class_entry.id) }}" class="btn btn-danger btn-sm">Delete</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

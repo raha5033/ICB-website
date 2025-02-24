@@ -2,7 +2,7 @@
 {% block content %}
 <div class="container mt-4">
     <h2>Create About Islam Page</h2>
-    <form method="POST" id="createForm">
+    <form method="POST" enctype="multipart/form-data" id="createForm">
         <div class="form-group mb-3">
             <label>Title</label>
             <input type="text" name="title" class="form-control" required>
@@ -15,6 +15,10 @@
             <label>Content</label>
             <div id="editor-container" style="height: 300px; border: 1px solid #ccc;"></div>
             <input type="hidden" name="content" id="content">
+        </div>
+        <div class="form-group mb-3">
+            <label>Upload Image</label>
+            <input type="file" name="image" class="form-control">
         </div>
         <button type="submit" class="btn btn-primary">Create</button>
         <a href="{{ url_for('admin_about_islam') }}" class="btn btn-secondary">Cancel</a>

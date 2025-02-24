@@ -1,0 +1,6 @@
+to run the the app follow the following: run this 
+sudo env "PATH=$PATH" python3 index.py
+then in another cmd run  : to run the mawaqit 
+
+uvicorn main:app --host 0.0.0.0 --port 8000
+https://mrsofiane.me/mawaqit-api/#/docs/installation

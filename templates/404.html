@@ -1,0 +1,30 @@
+{% include 'partials/header.html' %}
+{% include 'partials/navigation.html' %}
+
+
+<section class="error-404"  style="background-image: url({{ url_for('static', filename='assets/img/Khutbah.jpg') }});">
+    <div class="container">
+      <div class="row">
+          <div class="error">
+            <h2>4<span>0</span>4</h2>
+            <h3>Sorry! The page can’t be found.</h3>
+            
+            <form>
+            <input type="text" name="email" placeholder="Enter your email address...">
+            <button type="submit" class="error-button"><i class="fa-solid fa-magnifying-glass"></i></button>
+          </form>
+          <a href="{{ url_for('index') }}" class="btn"><i class="fa-solid fa-house"></i><span>Back To Home</span></a>
+          </div>
+      </div>
+    </div>
+  </section>
+{% include 'partials/footer.html' %}
+<script src="{{ url_for('static', filename='assets/js/bootstrap.min.js') }}"></scrip>
+<script src="{{ url_for('static', filename='assets/js/jquery.nice-select.min.js') }}"></script>
+<script src="{{ url_for('static', filename='assets/js/sweetalert.min.js') }}"></script>
+<script src="{{ url_for('static', filename='assets/js/contact.js') }}"></script>
+<!-- fancybox -->
+<script src="{{ url_for('static', filename='assets/js/jquery.fancybox.min.js') }}"></script>
+
+<script src="{{ url_for('static', filename='assets/js/custom.js') }}"></script>
+

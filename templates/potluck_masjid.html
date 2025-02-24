@@ -1,0 +1,134 @@
+{% include 'partials/header.html' %}
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f8f9fa;
+    }
+    .container {
+        width: 80%;
+        margin: auto;
+        padding: 20px;
+    }
+    .event-section {
+        background-color: #fff;
+        padding: 20px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+        margin-bottom: 20px;
+    }
+    .event-section figure img {
+        width: 100%;
+        border-radius: 8px;
+    }
+    .details {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-top: 10px;
+        font-size: 14px;
+        color: #666;
+    }
+    .event-title {
+        font-size: 24px;
+        font-weight: bold;
+        margin: 10px 0;
+    }
+    .quote-section {
+        background-image: url('assets/img/color-bg.jpg');
+        padding: 20px;
+        color: white;
+        text-align: center;
+        border-radius: 8px;
+        margin-top: 20px;
+    }
+    .quote-section h5 {
+        font-style: italic;
+    }
+    .image-gallery {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 20px;
+        gap: 15px; /* Adds spacing between images */
+    }
+    
+    .image-gallery figure {
+        width: 48%;
+        overflow: hidden; /* Prevents overflow if images are large */
+        border-radius: 8px;
+    }
+    
+    .image-gallery img {
+        width: 100%; /* Ensures the image fills the figure */
+        height: auto; /* Maintains aspect ratio */
+        display: block; /* Removes extra spacing below images */
+        object-fit: cover; /* Ensures the image scales nicely */
+    }
+    
+</style>
+{% include 'partials/navigation.html' %}
+
+<section class="bannr-section" style="background-image: url({{ url_for('static', filename='assets/img/Khutbah.jpg') }});">
+    <div class="container">
+        <div class="bannr-text">
+            <h2>ICB Masjid Potluck</h2>
+        </div>
+    </div>
+</section>
+<section class="gap">
+    <div class="container">
+        <div class="row">
+            <!-- Class Details -->
+            <div class="col-lg-8">
+                <div class="class-details">
+            <div class="event-section">
+                <figure>
+                    <img src="{{ url_for('static', filename='assets/img/potluck.png') }}" alt="icon">
+                </figure>
+                <div class="details">
+                    <span>Community Potluck</span>
+                    <h6>First Friday of Every Month</h6>
+                </div>
+                <h5 class="event-title">Join Us for a Blessed Evening of Food & Fellowship</h5>
+                <p>Our community masjid welcomes everyone—Muslims and non-Muslims—to our monthly **Potluck Night**. Bring a dish, snack, or anything you can afford and share in the blessings of good food and great company.</p>
+                <p>The evening begins with a **short lecture after Maghrib**, followed by **dinner after Isha**. The masjid will also provide food and snacks to supplement the potluck.</p>
+                
+                <h6><b>Why Join Us?</b></h6>
+                <ul>
+                    <li>Strengthen community bonds</li>
+                    <li>Experience the joy of sharing</li>
+                    <li>Engage in beneficial discussions</li>
+                    <li>Enjoy delicious meals with good company</li>
+                </ul>
+            </div>
+        
+            <!-- Quote Section -->
+            <div class="quote-section">
+                <h5>"The best of people are those who bring the most benefit to others." – Prophet Muhammad (PBUH)</h5>
+                <h4>- Imam Ahmed, Community Leader</h4>
+            </div>
+        
+            <!-- Image Gallery -->
+            <div class="image-gallery">
+                <figure>
+                    <img src="{{ url_for('static', filename='assets/img/food.png') }}" alt="icon">
+                </figure>
+                <figure>
+                    <img src="{{ url_for('static', filename='assets/img/food.jpg') }}" alt="icon">
+                </figure>
+            </div>
+        
+            <!-- Video Section -->
+            
+        </div>
+    </div>
+            {% include 'partials/sidebar.html' %}  <!-- Include Sidebar Here -->
+        </div>
+    </div>
+</section>
+
+
+{% include 'partials/footer.html' %}
+
+

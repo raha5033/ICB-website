@@ -43,5 +43,24 @@ class AboutIslamPage(db.Model):
     title = db.Column(db.String(200), nullable=False)
     slug = db.Column(db.String(200), unique=True, nullable=False)
     content = db.Column(db.Text)
+    image = db.Column(db.String(200), default='default.jpg')
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow) 
+
+    
+class Classes(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    course_title = db.Column(db.String(255), nullable=False)
+    instructor_name = db.Column(db.String(255), nullable=False)
+    target_group = db.Column(db.String(50), nullable=False)  # E.g., boys, girls, youth, adults
+    age_group = db.Column(db.String(50), nullable=False)  # E.g., 4-8, 9-12, etc.
+    course_fee = db.Column(db.String(50), nullable=False)  # E.g., Free, $50, etc.
+    course_date = db.Column(db.DateTime, nullable=False)  # Course starting date
+    frequency = db.Column(db.String(50), nullable=False)  # E.g., Every Sunday, Monthly
+    location = db.Column(db.String(255), nullable=False)
+    image = db.Column(db.String(255), nullable=True, default="default.jpg")
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    content= db.Column(db.Text, nullable=True)
+
+    def __repr__(self):
+        return f"<Classes {self.course_title}>"

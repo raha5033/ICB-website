@@ -45,6 +45,7 @@ def admin_about_islam_edit(id):
             page.title = request.form.get('title')
             page.slug = request.form.get('slug')
             page.content = request.form.get('content')
+            page.image = request.form.get('image')
             page.updated_at = datetime.utcnow()
             
             # Debug print

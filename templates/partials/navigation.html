@@ -66,7 +66,7 @@
             <div class="two-bar">
                 <div class="d-flex align-items-center justify-content-between">
                     <div class="logo">
-                        <a href="index.html">
+                        <a href="/">
                             <img alt="logo" src="{{ url_for('static', filename='assets/img/logo.png') }}">
                         </a>
                     </div>
@@ -89,6 +89,14 @@
         {% for page in about_islam_pages %}
             <a href="{{ url_for('about_islam_page', slug=page.slug) }}">{{ page.title }}</a>
         {% endfor %}
+    </div>
+</li>
+<li class="navbar-dropdown">
+    <a href="{{ url_for('classes') }}">Classes</a>
+    <div class="dropdown">
+        {% for class in all_classes %}  <!-- Changed to all_classes -->
+        <a href="{{ url_for('class_detail', id=class.id) }}">{{ class.course_title }}</a>  <!-- Use course_title -->
+    {% endfor %}
     </div>
 </li>
 <!-- ... existing code ... -->
@@ -128,19 +136,33 @@
         <ul>
             <li><a href="/">Home</a></li>
             <li><a href="/about">About Us</a></li>
-            
-            <li class="menu-item-has-children"><a href="#">About Islam</a>
+    
+            <!-- About Islam Dropdown -->
+            <li class="menu-item-has-children">
+                <a href="#">About Islam</a>
                 <ul class="sub-menu">
                     {% for page in about_islam_pages %}
                         <li><a href="{{ url_for('about_islam_page', slug=page.slug) }}">{{ page.title }}</a></li>
                     {% endfor %}
                 </ul>
             </li>
-            
+    
+            <!-- Classes Dropdown -->
+            <li class="menu-item-has-children">
+                <a href="{{ url_for('classes') }}">Classes</a>
+                <ul class="sub-menu">
+                    {% for class in all_classes %}
+                        <li><a href="{{ url_for('class_detail', id=class.id) }}">{{ class.course_title }}</a></li>
+                    {% endfor %}
+                </ul>
+            </li>
+    
             <li><a href="/code_of_conduct">Code of Conduct</a></li>
             <li><a href="/contact">Contact Us</a></li>
     
-            <li class="menu-item-has-children"><a href="#">Donate</a>
+            <!-- Donate Dropdown -->
+            <li class="menu-item-has-children">
+                <a href="#">Donate</a>
                 <ul class="sub-menu">
                     <li><a href="#">Zakat ul Fitr</a></li>
                     <li><a href="#">General Masjid Expenses</a></li>
@@ -156,5 +178,6 @@
         </ul>
         <a href="JavaScript:void(0)" id="res-cross"></a>
     </div>
+    
     
 </header>
