@@ -1,0 +1,53 @@
+{% include 'partials/header.html' %}
+{% include 'partials/navigation.html' %}
+
+<section class="bannr-section" style="background-image: url({{ url_for('static', filename='assets/img/Khutbah.jpg') }});">
+    <div class="container">
+        <div class="bannr-text">
+            <img src="{{ url_for('static', filename='assets/img/heading-img.png') }}" alt="icon">
+            <h2>{{ item.title }}</h2>
+        </div>
+    </div>
+</section>
+
+<section class="gap">
+    <div class="container">
+        <div class="row">
+            <!-- Class Details -->
+            <div class="col-lg-8">
+                <div class="class-details">
+                    
+                    <img src="{{ url_for('static', filename='assets/img/' + item.image_path) }}" alt="{{ item.title }}" class="img-fluid">
+
+                    <!-- Course Information -->
+                    <div class="text-center mt-3">
+                        <h2>{{ item.title }}</h2>
+                    </div>
+                    
+
+                    <div class="class-info">
+                        <div><i class="fa-solid fa-calendar"></i> <strong> Date:</strong> {{ item.date.strftime('%B %d, %Y') }}</div>
+                        <div><i class="fa-solid fa-repeat"></i> <strong>Venue:</strong> {{ item.location }}</div>
+                    </div>
+
+                    <!-- Location -->
+
+                    <!-- Comments Section -->
+                    <div class="card mt-4">
+                        <div class="card-body">
+                            <h3 class="card-title">Welcome</h3>
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item">{{ item.content | safe }}</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sidebar -->
+            {% include 'partials/sidebar.html' %}  <!-- Include Sidebar Here -->
+        </div>
+    </div>
+</section>
+
+{% include 'partials/footer.html' %}

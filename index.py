@@ -8,7 +8,7 @@ import os
 from werkzeug.utils import secure_filename
 from functools import wraps
 from werkzeug.security import generate_password_hash, check_password_hash
-from models import AboutIslamPage
+from models import AboutIslamPage,Donation
 import sqlite3
 import pytz
 
@@ -122,17 +122,18 @@ def code_of_conduct():
     all_classes = Classes.query.order_by(Classes.course_date).all()
     pages = AboutIslamPage.query.all()
     news_items = News.query.order_by(News.created_at.desc()).all()
-
+    Donations=Donation.query.all()
     return render_template(
         'code_of_conduct.html',
         classes=all_classes,
         about_islam_pages=pages,
-        news_items=news_items
+        news_items=news_items,Donations=Donations
     )
 
 @app.route('/')
 @app.route('/index.html')
 def index():
+    Donations=Donation.query.all()
     news_items = News.query.order_by(News.created_at.desc()).limit(3).all()
 
 
@@ -145,7 +146,8 @@ def index():
                          prayer_times=prayer_times,
                          current_date=current_date_str,
                          news_items=news_items,
-                         events=upcoming_events)
+                         events=upcoming_events,
+                         Donations=Donations)
 
 @app.route('/admin/login', methods=['GET', 'POST'])
 def admin_login():
@@ -303,6 +305,7 @@ def view_news(id):
     all_classes = Classes.query.order_by(Classes.course_date).all()
     pages = AboutIslamPage.query.all()
     news_items = News.query.order_by(News.created_at.desc()).all()
+    Donations=Donation.query.all()
 
     return render_template(
         'view_news.html',
@@ -310,7 +313,19 @@ def view_news(id):
         class_entry=class_entry,  # Could be None if not found
         classes=all_classes,
         about_islam_pages=pages,
-        news_items=news_items
+        news_items=news_items,Donations=Donations
+    )
+@app.route('/news')
+def view_all_news():
+
+    # Attempt to fetch class_entry but don't fail if not found
+   
+    news = News.query.order_by(News.created_at).all()
+
+    return render_template(
+        'view_all_news.html',
+
+        news_items=news
     )
 
 @app.route('/classes')
@@ -318,8 +333,9 @@ def classes():
     all_classes = Classes.query.order_by(Classes.course_date).all()
     pages = AboutIslamPage.query.all()
     news_items = News.query.order_by(News.created_at.desc()).all()
-    
-    return render_template('classes.html', classes=all_classes,about_islam_pages=pages,news_items=news_items)
+    Donations=Donation.query.all()
+
+    return render_template('classes.html', Donations=Donations,classes=all_classes,about_islam_pages=pages,news_items=news_items)
 @app.context_processor
 def inject_classes():
     """Make classes available to all templates"""
@@ -331,8 +347,8 @@ def class_detail(id):
     all_classes = Classes.query.order_by(Classes.course_date).all()
     pages = AboutIslamPage.query.all()
     news_items = News.query.order_by(News.created_at.desc()).all()
-   
-    return render_template('class.html', class_entry=class_entry,classes=all_classes,about_islam_pages=pages,news_items=news_items)
+    Donations=Donation.query.all()
+    return render_template('class.html',Donations=Donations, class_entry=class_entry,classes=all_classes,about_islam_pages=pages,news_items=news_items)
 
 @app.route('/about-islam/<slug>')
 def about_islam_page(slug):
@@ -349,7 +365,9 @@ def about_islam_pages():
     pages = AboutIslamPage.query.all()
     news_items = News.query.order_by(News.created_at.desc()).all()
     classes = Classes.query.order_by(Classes.course_date).all()
-    return render_template('about_islam_pages.html', classes=classes, pages=pages,
+    Donations=Donation.query.all()
+
+    return render_template('about_islam_pages.html',Donations=Donations, classes=classes, pages=pages,
                         news_items=news_items)
 
 @app.route('/admin/about-islam')
@@ -477,7 +495,21 @@ init_db()
 # Homepage
 @app.route('/events')
 def events():
-    return render_template('events.html')
+    events = Event.query.order_by(Event.date).all()
+    pages = AboutIslamPage.query.all()
+    news_items = News.query.order_by(News.created_at.desc()).all()
+    Donations=Donation.query.all()
+
+    return render_template('events.html', Donations=Donations,events=events,about_islam_pages=pages,news_items=news_items)
+
+@app.route('/event/<int:id>')
+def event_details(id):
+    events = Event.query.get_or_404(id)
+    all_classes = Classes.query.order_by(Classes.course_date).all()
+    pages = AboutIslamPage.query.all()
+    news_items = News.query.order_by(News.created_at.desc()).all()
+    Donations=Donation.query.all()
+    return render_template('event.html',Donations=Donations, item=events,classes=all_classes,about_islam_pages=pages,news_items=news_items)
 
 # Ramadhan Signup
 @app.route('/ramadhan', methods=['GET', 'POST'])
@@ -587,12 +619,13 @@ def potluck_masjid():
     all_classes = Classes.query.order_by(Classes.course_date).all()
     pages = AboutIslamPage.query.all()
     news_items = News.query.order_by(News.created_at.desc()).all()
+    Donations=Donation.query.all()
 
     return render_template(
         'potluck_masjid.html',
         classes=all_classes,
         about_islam_pages=pages,
-        news_items=news_items
+        news_items=news_items,Donations=Donations
     )
     
 
@@ -758,7 +791,7 @@ def get_events():
         events.append({
             "title": e.title,
             "start": e.date.strftime('%Y-%m-%d'),
-            "url": url_for('events'),
+            "url": url_for('event_details',id=e.id),
             "color": "#6C757D"
         })
 
@@ -777,21 +810,21 @@ def contact():
 
         # Mapping inquiry type to email recipients
         email_recipients = {
-            "fundraising": "shura@gmail.com",
-            "reserving_space": "EC@gmail.com",
-            "scheduling_event": "shura@gmail.com",
-            "financial_assistance": "shura@gmail.com",
-            "zakat": "shura@gmail.com",
-            "nikah": "imam@gmail.com",
-            "islam": "imam@gmail.com",
-            "others": "EC@gmail.com",
+            "fundraising": "contact.icb@gmail.com",
+            "reserving_space": "contact.icb@gmail.com",
+            "scheduling_event": "contact.icb@gmail.com",
+            "financial_assistance": "contact.icb@gmail.com",
+            "zakat": "contact.icb@gmail.com",
+            "nikah": "contact.icb@gmail.com",
+            "islam": "contact.icb@gmail.com",
+            "others": "contact.icb@gmail.com",
         }
 
         recipient_email = email_recipients.get(inquiry_type, "contact.icb@gmail.com")  # Default email
 
         # Construct Email Message
         msg = MIMEMultipart()
-        msg['From'] = "your-email@example.com"  # Your email address
+        msg['From'] = email  # Your email address
         msg['To'] = recipient_email
         msg['Subject'] = f"New Inquiry: {subject}"
 
@@ -810,8 +843,8 @@ def contact():
             # SMTP Server Configuration (Modify based on your email provider)
             smtp_server = "smtp.gmail.com"
             smtp_port = 587
-            smtp_username = "your-email@example.com"  # Your email address
-            smtp_password = "your-email-password"  # Your email password
+            smtp_username = "contact.icb@gmail.com"  # Your email address
+            smtp_password = "l1is5$dRC6ZFOG#I"  # Your email password
 
             server = smtplib.SMTP(smtp_server, smtp_port)
             server.starttls()
@@ -830,6 +863,63 @@ def contact():
 @app.errorhandler(404)
 def page_not_found(e):
     return render_template('404.html'), 404
+
+@app.route('/donation')
+def donation():
+    Donations=Donation.query.all()
+    return render_template('donation.html',Donations=Donations)
+@app.route('/admin/donations/create', methods=['GET', 'POST'])
+@login_required
+def create_donation():
+    if request.method == 'POST':
+        title = request.form['title']
+        fee = request.form['fee']
+        details = request.form['details']
+        link = request.form['link']
+
+        new_donation = Donation(
+            title=title,
+            fee=fee,
+            details=details,
+            link=link
+        )
+
+        db.session.add(new_donation)
+        db.session.commit()
+        flash('Donation added successfully!', 'success')
+        return redirect(url_for('admin_donations'))
+
+    return render_template('admin/donations/create.html')
+
+@app.route('/admin/donations')
+@login_required
+def admin_donations():
+    donations = Donation.query.order_by(Donation.created_at.desc()).all()
+    return render_template('admin/donations/list.html', donations=donations)
+@app.route('/admin/donations/<int:id>/edit', methods=['GET', 'POST'])
+@login_required
+def edit_donation(id):
+    donation = Donation.query.get_or_404(id)
+
+    if request.method == 'POST':
+        donation.title = request.form['title']
+        donation.fee = request.form['fee']
+        donation.details = request.form['details']
+        donation.link = request.form['link']
+
+        db.session.commit()
+        flash('Donation updated successfully!', 'success')
+        return redirect(url_for('admin_donations'))
+
+    return render_template('admin/donations/edit.html', donation=donation)
+@app.route('/admin/donations/<int:id>/delete')
+@login_required
+def delete_donation(id):
+    donation = Donation.query.get_or_404(id)
+    db.session.delete(donation)
+    db.session.commit()
+    flash('Donation deleted successfully!', 'success')
+    return redirect(url_for('admin_donations'))
 
 if __name__ == '__main__':
     app.run(debug=True)

@@ -459,7 +459,7 @@
                             </div>
                             <h5><a href="#">{{ news.title }}</a></h5>
                             <div>{{ news.content|safe }}</div>
-                            <a href="#" class="read-more">
+                            <a href="{{ url_for('view_news', id=news.id) }}" class="read-more">
                                 <i class="fa-solid fa-arrow-right"></i>
                                 <span>Read More</span>
                             </a>
@@ -482,70 +482,8 @@
             </div>
         </div>
     </section>
-    <footer class="two" style="background-image: url({{ url_for('static', filename='assets/img/footer-bg.jpg') }});">
-        <div class="container">
-            <div class="row Information pb-0">
-                <div class="col-lg-4 col-md-6">
-                  <div class="widget-title">
-                    <h3>Information</h3>
-                    <h4>5495 Baseline Road Boulder, CO 80303</h4>
-                    <h5><a href="callto:254(98)2156213">+1 720-340-1530</a></h5>
-                    <a href="mailto:username@domain.com">contact.icb@gmail.com</a>
-                    <ul class="social-media">
-                        <li><a href="https://www.facebook.com/bouldermuslims"><i class="fab fa-facebook-f icon"></i></a></li>
-                        <li><a href="#"><i class="fab fa-twitter icon"></i></a></li>
-                        <li><a href="#"><i class="fab fa-google-plus-g icon"></i></a></li>
-                        <li><a href="#"><i class="fa-brands fa-linkedin"></i></a></li>
-                    </ul>
-                  </div>
-                </div>
-                <div class="col-lg-4 col-md-6">
-                  <div class="widget-title">
-                    <h3>Quick Links</h3>
-                    <ul>
-                      <li><i class="fa-solid fa-angle-right"></i><a href="our-courses.html">Online Courses</a></li>
-                      <li><i class="fa-solid fa-angle-right"></i><a href="#">Audio Listening</a></li>
-                      <li><i class="fa-solid fa-angle-right"></i><a href="#">Sehri & Iftar</a></li>
-                      <li><i class="fa-solid fa-angle-right"></i><a href="our-events.html">Our Events</a></li>
-                      <li><i class="fa-solid fa-angle-right"></i><a href="#">Quran Hifz Classes</a></li>
-                      <li><i class="fa-solid fa-angle-right"></i><a href="about.html">About Ibadat</a></li>
-                      <li><i class="fa-solid fa-angle-right"></i><a href="#">Our Services</a></li>
-                      <li><i class="fa-solid fa-angle-right"></i><a href="#">Quran Hifz Classes</a></li>
-                      <li class="pb-0"><i class="fa-solid fa-angle-right"></i><a href="#">Urgent Donation</a></li>
-                    </ul>
-                  </div>
-                </div>
-                <div class="col-lg-4">
-                    <div class="learn-quran" style="background-image: url({{ url_for('static', filename='assets/img/color-bg.jpg') }});">
-                        <h4>Learn Quran With Us</h4>
-                        <p>Signup for our Free Quranic classes</p>
-                        <form>
-                            <input type="text" name="name" placeholder="Complete Name">
-                            <input type="email" name="email" placeholder="Email Address">
-                            
-                            <select name="level">
-                                <option value="" disabled selected>Select Level</option>
-                                <option value="beginner">Beginner</option>
-                                <option value="intermediate">Intermediate</option>
-                                <option value="advanced">Advanced</option>
-                            </select>
-                            
-                            <button class="btn" type="submit">Get Started</button>
-                        </form>
-                        
-                        
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-lg-8">
-                        <div class="wpo-lower-footer">
-                            <p>Copyright ©<a href="#"><b>Ibadah</b></a>2024 . All rights reserved.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </footer>
+    {% include 'partials/footer.html' %}
+
     <!-- search-popup -->
     <div class="search-popup">
         <button class="close-search"><i class="fa-solid fa-xmark"></i></button>

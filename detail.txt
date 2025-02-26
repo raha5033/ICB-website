@@ -1,4 +1,7 @@
 to run the the app follow the following: run this 
+python3 -m venv venv
+source venv/bin/activate
+
 sudo env "PATH=$PATH" python3 index.py
 then in another cmd run  : to run the mawaqit 
 

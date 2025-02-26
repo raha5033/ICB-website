@@ -1,0 +1,68 @@
+{% extends "admin/base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Edit Donation</h2>
+    <form method="POST">
+        <div class="form-group">
+            <label>Title</label>
+            <input type="text" name="title" class="form-control" value="{{ donation.title }}" required>
+        </div>
+        <div class="form-group">
+            <label>Fee</label>
+            <input type="text" name="fee" class="form-control" value="{{ donation.fee }}" required>
+        </div>
+        <div class="form-group">
+            <label>Details</label>
+            <div id="editor-container" style="height: 300px; border: 1px solid #ccc;"></div>
+            <input type="hidden" name="details" id="details">
+        </div>
+        <div class="form-group">
+            <label>Link</label>
+            <input type="url" name="link" class="form-control" value="{{ donation.link }}">
+        </div>
+        <button type="submit" class="btn btn-primary">Update Donation</button>
+    </form>
+</div>
+{% endblock %}
+
+{% block scripts %}
+{{ super() }}
+<script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+<link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Initialize Quill
+        var quill = new Quill('#editor-container', {
+            theme: 'snow',
+            modules: {
+                toolbar: [
+                    ['bold', 'italic', 'underline', 'strike'],
+                    [{ 'header': 1 }, { 'header': 2 }],
+                    [{ 'size': ['small', false, 'large', 'huge'] }],
+                    [{ 'font': [] }],
+                    [{ 'color': [] }, { 'background': [] }],
+                    [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+                    [{ 'script': 'sub' }, { 'script': 'super' }],
+                    [{ 'indent': '-1' }, { 'indent': '+1' }],
+                    [{ 'align': [] }],
+                    ['link', 'image', 'video', 'code-block'],
+                    ['clean']
+                ]
+            }
+        });
+    
+        // Debug: Log content to be set
+        console.log('Content from server:', {{ donation.details|tojson|safe if donation.details else '""' }});
+    
+        // Set initial content inside Quill editor properly
+        quill.root.innerHTML = {{ donation.details|tojson|safe if donation.details else '""' }};
+    
+        // Handle form submission
+        document.querySelector('form').addEventListener('submit', function(e) {
+            document.querySelector('textarea[name="details"]').value = quill.root.innerHTML;
+        });
+    });
+    
+</script>
+{% endblock %} 

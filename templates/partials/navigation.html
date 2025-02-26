@@ -38,9 +38,8 @@
                 <div class="col-xl-2">
                     <div class="">
                         <ul class="social-media">
-                            <li><a href="https://www.facebook.com/bouldermuslims"><i class="fab fa-facebook-f icon"></i></a></li>
-                            <li><a href="#"><i class="fab fa-twitter icon"></i></a></li>
-                            <li><a href="#"><i class="fa-brands fa-linkedin"></i></a></li>
+                            <li><a href="https://www.facebook.com/bouldermuslims"  target="_blank" ><i class="fab fa-facebook-f icon"></i></a></li>
+                            <li><a href="https://www.instagram.com/icbofficial_co/"  target="_blank" ><i class="fab fa-instagram icon"></i></a></li>
                         </ul>
                     </div>
                 </div>
@@ -107,20 +106,16 @@
                             <a href="/contact">Contact Us</a>
                         </li>
                         <li class="navbar-dropdown">
-                            <a href="#">Donate</a>
+                            <a href="https://payments.madinaapps.com/ICB ">Donate</a>
                             <div class="dropdown">
-                                <a href="#">Zakat ul Fitr</a>
-                                <a href="#">General Masjid Expenses</a>
-                                <a href="#">Masjid Al-Quds (Erie Musalla)</a>
-                                <a href="#">Zakat ul Mal</a>
-                                <a href="#">Masjid Projects</a>
-                                <a href="#">Sadaqah For Poor & Needy</a>
-                                <a href="#">Financial Assistance</a>
+                                {% for donate in Donations %}
+            <a href="{{ url_for('donation') }}">{{ donate.title }}</a>
+                                 {% endfor %}
                             </div>
                         </li>
                         
                         <li class="navbar-dropdown">
-                            <a href="/posts">Posts</a>
+                            <a href="/events">Upcoming Event</a>
                         </li>
                     </ul>
                 </nav>

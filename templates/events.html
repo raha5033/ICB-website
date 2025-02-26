@@ -1,14 +1,53 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Event Signup</title>
-</head>
-<body>
-    <h1>Welcome to the Event Signup Page</h1>
-    <ul>
-        <li><a href="{{ url_for('ramadhan') }}">Ramadhan Signup</a></li>
-        <li><a href="{{ url_for('potluck') }}">Potluck Signup</a></li>
-    </ul>
-</body>
-</html>
+{% include 'partials/header.html' %}
+{% include 'partials/navigation.html' %}
+
+<section class="bannr-section" style="background-image: url({{ url_for('static', filename='assets/img/Khutbah.jpg') }});">
+    <div class="container">
+        <div class="bannr-text">
+            <img src="{{ url_for('static', filename='assets/img/heading-img.png') }}" alt="icon">
+            <h2>Events</h2>
+        </div>
+    </div>
+</section>
+
+<section class="gap">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8">
+                {% for item in events %}
+                <div class="card mt-4">
+            <div class="card-body">
+                <div class="blog-two our-blog hoverimg ">
+                    <figure>
+                        <img src="{{ url_for('static', filename='assets/img/' + item.image_path) }}" 
+                        alt="{{ item.title }}" 
+                        width="851" height="471">
+                                       </figure>
+                    <div class="d-flex align-items-center">
+                        <span><h2><strong>Event</strong></h2></span>
+                        <h6>> {{ item.event_date.strftime('%B %d, %Y') }}</h6>
+                    </div>
+                    <h5><a href="{{ url_for('event_details', id=item.id) }}">{{ item.title }}</a></h5>
+                    <div class="blog-man d-flex align-items-center ">
+                        <div>
+                           
+                                <i><strong>Venue: </strong></i>
+                                <span style="color: black;">{{ item.location }}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <a href="{{ url_for('event_details', id=item.id) }}">
+                        <i class="fa-solid fa-arrow-right"></i><span>Read More</span>
+                    </a>
+                </div>
+            </div>
+            </div>
+                {% endfor %}
+        </div>
+
+             {% include 'partials/sidebar.html' %}  <!-- Include Sidebar Here -->
+        </div>
+    </div>
+</section>
+
+{% include 'partials/footer.html' %}

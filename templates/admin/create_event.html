@@ -2,14 +2,15 @@
 {% block content %}
 <div class="container mt-4">
     <h2>Add Event</h2>
-    <form method="POST" enctype="multipart/form-data">
+    <form method="POST" id="createForm" enctype="multipart/form-data">
         <div class="form-group">
             <label>Title</label>
             <input type="text" name="title" class="form-control" required>
         </div>
         <div class="form-group">
             <label>Content</label>
-            <textarea name="content" class="form-control rich-text" required></textarea>
+            <div id="editor-container" style="height: 300px; border: 1px solid #ccc;"></div>
+            <input type="hidden" name="content" id="content">
         </div>
         <div class="form-group">
             <label>Date & Time</label>
@@ -28,3 +29,35 @@
     </form>
 </div>
 {% endblock %} 
+
+
+{% block scripts %}
+{{ super() }}
+<script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+<link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+<script>
+    var quill = new Quill('#editor-container', {
+        theme: 'snow',
+        modules: {
+            toolbar: [
+                ['bold', 'italic', 'underline', 'strike'],
+                [{ 'header': 1 }, { 'header': 2 }],
+                [{ 'size': ['small', false, 'large', 'huge'] }],
+                [{ 'font': [] }],
+                [{ 'color': [] }, { 'background': [] }],
+                [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+                [{ 'script': 'sub' }, { 'script': 'super' }],
+                [{ 'indent': '-1' }, { 'indent': '+1' }],
+                [{ 'align': [] }],
+                ['link', 'image', 'video', 'code-block'],
+                ['clean']
+            ]
+        }
+    });
+
+    document.getElementById('createForm').onsubmit = function() {
+        document.getElementById('content').value = quill.root.innerHTML;
+        return true;
+    };
+</script>
+{% endblock %}

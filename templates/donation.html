@@ -1,0 +1,54 @@
+{% include 'partials/header.html' %}
+{% include 'partials/navigation.html' %}
+<section class="bannr-section" style="background-image: url({{ url_for('static', filename='assets/img/Khutbah.jpg') }});">
+    <div class="container">
+        <div class="bannr-text">
+            <img src="{{ url_for('static', filename='assets/img/heading-img.png') }}" alt="icon">
+            <h2>Donation/constribution</h2>
+        </div>
+    </div>
+</section>
+
+
+
+<section class="gap ">
+   <div class="container">
+    <div class="row">
+        {% for donation in Donations %}
+        <div class="col-lg-4 col-md-6">
+            <div class="travel-package">
+                <div class="package-reat">
+                    <div>
+                        <h4><div>{{ donation.title }}</div></h4>
+                        <h5>${{donation.fee }}<span></span></h5>
+                    </div>
+                    <i>
+                        
+
+
+                    </i>
+                </div>
+                <div class="travel-package-list">
+                    {{ donation.details|safe }}
+                    <a href="{{ donation.link }}" class="btn">Donate Now</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+
+
+
+
+    </div>
+   </div>
+</section>
+
+{% include 'partials/footer.html' %}
+<script src="{{ url_for('static', filename='assets/js/bootstrap.min.js') }}"></scrip>
+<script src="{{ url_for('static', filename='assets/js/jquery.nice-select.min.js') }}"></script>
+<script src="{{ url_for('static', filename='assets/js/sweetalert.min.js') }}"></script>
+<script src="{{ url_for('static', filename='assets/js/contact.js') }}"></script>
+<!-- fancybox -->
+<script src="{{ url_for('static', filename='assets/js/jquery.fancybox.min.js') }}"></script>
+
+<script src="{{ url_for('static', filename='assets/js/custom.js') }}"></script>
